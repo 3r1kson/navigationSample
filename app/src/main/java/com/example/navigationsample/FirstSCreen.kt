@@ -11,19 +11,20 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @SuppressLint("NotConstructor")
 @Composable
-fun FirstScreen(navigationToSecondScreen:(String) -> Unit) {
+fun FirstScreen(navigationToSecondScreen:(Int, String) -> Unit) {
     val name = remember { mutableStateOf("") }
+    val age = remember { mutableIntStateOf(0) }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -33,20 +34,31 @@ fun FirstScreen(navigationToSecondScreen:(String) -> Unit) {
     ) {
         Text("This is the First Screen", fontSize = 24.sp)
         Spacer(modifier = Modifier.height(16.dp))
-        OutlinedTextField(value = name.value, onValueChange = {
-            name.value = it
-        })
+        OutlinedTextField(
+            value = name.value,
+            onValueChange = {
+                name.value = it
+            }
+        )
+
+        OutlinedTextField(
+            value = age.value.toString(),
+            onValueChange = {
+                age.value= it.toInt()
+            }
+        )
+
         Button(onClick = {
-            navigationToSecondScreen(name.value)
+            navigationToSecondScreen(age.value, name.value)
         }) {
             Text("Go to Second Screen")
         }
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun FirstPreview() {
-    FirstScreen({})
-}
-
+//@Preview(showBackground = true)
+//@Composable
+//fun FirstPreview() {
+//    FirstScreen(0, "TESTE", {})
+//}
+//
